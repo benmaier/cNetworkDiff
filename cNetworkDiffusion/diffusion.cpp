@@ -104,10 +104,12 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
 
         }
 
-        vector<size_t>::iterator n_it;
-        for (n_it = next_to_pop.begin(); n_it != next_to_pop.end(); ++n_it)
+        for (size_t walker_id=0; walker_id<next_to_pop.size(); walker_id++)
         {
-            vector<size_t>::iterator to_delete = find(remaining_walkers.begin(),remaining_walkers.end(),*n_it);
+            vector<size_t>::iterator to_delete = find(remaining_walkers.begin(),
+                                                      remaining_walkers.end(),
+                                                      next_to_pop[walker_id]
+                                                     );
             *to_delete = remaining_walkers.back();
             remaining_walkers.pop_back();
         }
