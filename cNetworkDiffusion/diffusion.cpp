@@ -78,11 +78,9 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
     uniform_real_distribution<double> uni_distribution(0.,1.);
     
     size_t t = 1;
-    cout << "nmax" << nmax << endl;
 
     while (remaining_walkers.size()>0)
     {
-        cout << "walkers remaining " << remaining_walkers.size() << endl;
         vector < size_t > next_to_pop;
         for(auto const& walker: remaining_walkers)
         {
@@ -103,7 +101,6 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
                 covt += t;
                 next_to_pop.push_back(walker);
             }
-            cout << "already_visited[" <<walker<<"].size() = "<< already_visited[walker]->size() << endl;
 
         }
 
@@ -111,17 +108,11 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
         for (n_it = next_to_pop.begin(); n_it != next_to_pop.end(); ++n_it)
         {
             vector<size_t>::iterator to_delete = find(remaining_walkers.begin(),remaining_walkers.end(),*n_it);
-            cout << "walkers remaining " << remaining_walkers.size() << endl;
-            cout << "*to_delete " << *to_delete << endl;
-            cout << "remaining_walkers.back() " << remaining_walkers.back() << endl;
             *to_delete = remaining_walkers.back();
             remaining_walkers.pop_back();
-            cout << "walkers remaining " << remaining_walkers.size() << endl;
         }
 
         t++;
-        if (t==4)
-            exit(1);
     }
 
     //free memory
