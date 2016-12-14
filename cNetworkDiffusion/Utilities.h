@@ -40,6 +40,13 @@
 
 using namespace std;
 
+size_t arg_choose_from_vector(
+        vector < double > const & weights, 
+        default_random_engine & generator, 
+        uniform_real_distribution<double> & distribution,
+        double a0 = 0.0
+        );
+
 vector < set < size_t > * > get_neighbor_set(
         size_t N,
         vector < pair < size_t, size_t > > &edge_list

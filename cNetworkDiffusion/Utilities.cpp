@@ -28,6 +28,37 @@
 
 using namespace std;
 
+size_t arg_choose_from_vector(
+        vector < double > const & weights, 
+        default_random_engine & generator, 
+        uniform_real_distribution<double> & distribution,
+        double a0
+      )
+{
+    if (a0 == 0.0)
+        double a0 = accumulate(weights.begin(), weights.end(), 0.0);
+
+    double rProduct = distribution(generator) * a0;
+
+    int event = 0;
+    int N = weights.size();
+
+    if (N==0)
+    {
+        throw length_error( "Rate list is empty." );
+    }
+
+    double sum_event = 0.0;
+    while ( (event<N) and not ( (sum_event < rProduct) and (rProduct <= sum_event+weights[event]) ) )
+    {
+        sum_event += weights[event];
+        event++;
+    }
+
+    return event;
+}
+
+
 vector < set < size_t > * > get_neighbor_set(
         size_t N,
         vector < pair < size_t, size_t > > &edge_list

@@ -54,6 +54,16 @@ PYBIND11_PLUGIN(cNetworkDiffusion) {
             py::arg("seed") = 0
             );
 
+    m.def("mmfpt_and_mean_coverage_time_power_law", &mmfpt_and_mean_coverage_time_power_law, "Simulates N_walker random walks on the network given as edge list and returns the mean mean first passage time (MMFPT) and the mean coverage time.",
+            py::arg("N"),
+            py::arg("edge_list"),
+            py::arg("coverage_ratio") = 1.0,
+            py::arg("seed") = 0
+            );
+
+    return m.ptr();
+
+}
     return m.ptr();
 
 }
