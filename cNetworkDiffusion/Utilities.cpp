@@ -36,7 +36,7 @@ size_t arg_choose_from_vector(
       )
 {
     if (a0 == 0.0)
-        double a0 = accumulate(weights.begin(), weights.end(), 0.0);
+        a0 = accumulate(weights.begin(), weights.end(), 0.0);
 
     double rProduct = distribution(generator) * a0;
 
