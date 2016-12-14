@@ -61,6 +61,14 @@ PYBIND11_PLUGIN(cNetworkDiffusion) {
             py::arg("seed") = 0
             );
 
+    m.def("mmfpt_and_mean_coverage_time_power_law_k", &mmfpt_and_mean_coverage_time_power_law_k, "Simulates N_walker random walks on a ring network with power-law jump distribution where the distribution sums to k. Returns the mean mean first passage time (MMFPT) and the mean coverage time.",
+            py::arg("N"),
+            py::arg("alpha"),
+            py::arg("k"),
+            py::arg("coverage_ratio") = 1.0,
+            py::arg("seed") = 0
+            );
+
     return m.ptr();
 
 }

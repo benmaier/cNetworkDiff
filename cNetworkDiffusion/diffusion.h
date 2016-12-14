@@ -20,4 +20,12 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law(
         double coverage_ratio = 1.0,
         size_t seed = 0
         );
+
+tuple < double, double > mmfpt_and_mean_coverage_time_power_law_k(
+        size_t N,
+        double alpha,
+        double k,
+        double coverage_ratio,
+        size_t seed
+        );
 #endif
