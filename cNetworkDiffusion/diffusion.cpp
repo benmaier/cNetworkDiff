@@ -78,6 +78,7 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
     uniform_real_distribution<double> uni_distribution(0.,1.);
     
     size_t t = 1;
+    size_t number_of_pairs = 0;
 
     while (remaining_walkers.size()>0)
     {
@@ -94,6 +95,7 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
             {
                 already_visited[walker]->insert(neigh);
                 mfpt += t;
+                number_of_pairs++;
             }
 
             if (already_visited[walker]->size()==nmax)
@@ -124,8 +126,8 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
         delete G[node];
     }
 
-    covt /= N*(N-1);
-    mfpt /= N*(N-1);
+    covt /= N;
+    mfpt /= number_of_pairs;
 
     return make_pair(mfpt, covt);
 
@@ -182,6 +184,7 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law(
 
     
     size_t t = 1;
+    size_t number_of_pairs = 0;
 
     while (remaining_walkers.size()>0)
     {
@@ -198,6 +201,7 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law(
             {
                 already_visited[walker]->insert(neigh);
                 mfpt += t;
+                number_of_pairs++;
             }
 
             if (already_visited[walker]->size()==nmax)
@@ -227,8 +231,8 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law(
         delete already_visited[node];
     }
 
-    covt /= N*(N-1);
-    mfpt /= N*(N-1);
+    covt /= N;
+    mfpt /= number_of_pairs;
 
     return make_pair(mfpt, covt);
 
