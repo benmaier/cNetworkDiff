@@ -18,7 +18,7 @@ mcovt = np.zeros(N_xi)
 
 bar = progressbar.ProgressBar(max_value=N_xi-1)
 for ix,xi in enumerate(xis):
-    alpha = np.log(xi)/np.log(10) - 1  
+    alpha = np.log(xi)/np.log(10) 
     m,c = diff.mmfpt_and_mean_coverage_time_power_law(N,alpha,coverage_ratio,seed)
     mmfpt[ix] = m
     mcovt[ix] = c
