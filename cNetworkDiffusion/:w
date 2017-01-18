@@ -199,14 +199,14 @@ void get_giant_component(
 size_t get_random_neighbor_MHRN(
         size_t const & u,
         size_t const & B,
-        vector < double > const & p_node_in_layers,
+        vector < double > const & p_l,
         default_random_engine & generator, 
         uniform_real_distribution<double> & distribution
      )
 {
     size_t v;
     size_t L = p_node_in_layers.size();
-    /*
+
     vector < double > p_node_in_layers;
     
     for(size_t l = 1; l <= L; l++)
@@ -214,7 +214,6 @@ size_t get_random_neighbor_MHRN(
         size_t nodes_in_layer = pow(B,l)-pow(B,l-1);
         p_node_in_layers.push_back( p_l[l-1] * nodes_in_layer );
     }
-    */
 
     size_t neighbor_layer = arg_choose_from_vector(
                                 p_node_in_layers,
@@ -247,26 +246,3 @@ size_t get_random_neighbor_MHRN(
     return v;
 }
 
-vector < double > get_p_MHRN(
-        size_t const & B,
-        size_t const & L,
-        double const & k,
-        double const & xi
-        )
-{
-    double p1;
-    if ( xi == 1.0 ) 
-        p1 = k / double(B-1) / double(L);
-    else
-        p1 = k / double(B-1) * (1.0-xi) / (1.0-pow(xi,L));
-
-    if (p1>1.0)
-        throw domain_error("The lowest layer connection probability is >1.0, meaning that either xi is too small or k is too large.");
-
-    vector < double > p(L);
-    p[0] = p1;
-    for (size_t l=2; l<=L; l++)
-        p[l-1] = p1 * pow(xi/double(B),l-1);
-
-    return p;
-}

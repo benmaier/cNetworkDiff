@@ -133,6 +133,101 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
 
 }
 
+tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
+        size_t B,
+        size_t L,
+        double k,
+        double xi,
+        double coverage_ratio,
+        size_t seed
+        )
+{
+    assert( coverage_ratio>0 && coverage_ratio<=1.0);
+
+
+    double mfpt = 0.; // mean first passage time
+    double covt = 0.; // coverage time
+
+    size_t nmax = coverage_ratio * N;
+
+    size_t N_w = N;
+    vector < size_t > current_nodes(N_w);
+    vector < set < size_t > * > already_visited;
+
+    vector < size_t > remaining_walkers;
+
+    for(size_t node = 0; node < N; node++)
+    {
+        size_t walker = node;
+        current_nodes[walker] = node;
+        already_visited.push_back(new set < size_t >);
+        already_visited[walker]->insert(node);
+        remaining_walkers.push_back(walker);
+    }
+
+    //initialize random generators
+    default_random_engine generator(seed);
+    uniform_real_distribution<double> uni_distribution(0.,1.);
+
+    vector < double > layer_pmf = get_p_MHRN(B,L,k,xi);
+    for(size_t l = 1; l<=L; l++)
+        layer_pmf[l-1] *= ( pow(B,l) - pow(B,l-1) );
+
+
+    
+    size_t t = 1;
+    size_t number_of_pairs = 0;
+
+    while (remaining_walkers.size()>0)
+    {
+        vector < size_t > next_to_pop;
+        for(auto const& walker: remaining_walkers)
+        {
+            size_t u = current_nodes[walker];
+            size_t neigh = get_random_neighbor_MHRN(u,B,layer_pmf,generator,distribution);
+
+            current_nodes[walker] = neigh;
+
+            if (already_visited[walker]->find(neigh) == already_visited[walker]->end())
+            {
+                already_visited[walker]->insert(neigh);
+                mfpt += t;
+                number_of_pairs++;
+            }
+
+            if (already_visited[walker]->size()==nmax)
+            {
+                covt += t;
+                next_to_pop.push_back(walker);
+            }
+
+        }
+
+        for (size_t walker_id=0; walker_id<next_to_pop.size(); walker_id++)
+        {
+            vector<size_t>::iterator to_delete = find(remaining_walkers.begin(),
+                                                      remaining_walkers.end(),
+                                                      next_to_pop[walker_id]
+                                                     );
+            *to_delete = remaining_walkers.back();
+            remaining_walkers.pop_back();
+        }
+
+        t++;
+    }
+
+    //free memory
+    for(size_t node = 0; node < N; node++)
+    {
+        delete already_visited[node];
+    }
+
+    covt /= N;
+    mfpt /= number_of_pairs;
+
+    return make_pair(mfpt, covt);
+
+}
 tuple < double, double > mmfpt_and_mean_coverage_time_power_law(
         size_t N,
         double alpha,

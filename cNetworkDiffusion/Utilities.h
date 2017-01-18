@@ -47,6 +47,21 @@ size_t arg_choose_from_vector(
         double a0 = 0.0
         );
 
+size_t get_random_neighbor_MHRN(
+        size_t const & u,
+        size_t const & B,
+        vector < double > const & p_node_in_layers,
+        default_random_engine & generator, 
+        uniform_real_distribution<double> & distribution
+        );
+
+vector < double > get_p_MHRN(
+        size_t const & B,
+        size_t const & L,
+        double const & k,
+        double const & xi
+        );
+
 vector < set < size_t > * > get_neighbor_set(
         size_t N,
         vector < pair < size_t, size_t > > &edge_list
