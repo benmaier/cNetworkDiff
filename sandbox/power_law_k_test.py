@@ -6,7 +6,7 @@ import cNetworkDiffusion as diff
 import progressbar
 
 B = 10
-N_xi = 50
+N_xi = 20
 xis = np.logspace(log10(0.25),log10(10),N_xi)
 N = 500
 coverage_ratio = 1.0

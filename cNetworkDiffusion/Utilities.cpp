@@ -204,8 +204,7 @@ size_t get_random_neighbor_MHRN(
         uniform_real_distribution<double> & distribution
      )
 {
-    size_t v;
-    size_t L = p_node_in_layers.size();
+    //size_t L = p_node_in_layers.size();
     /*
     vector < double > p_node_in_layers;
     

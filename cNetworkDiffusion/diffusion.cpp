@@ -144,6 +144,7 @@ tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
 {
     assert( coverage_ratio>0 && coverage_ratio<=1.0);
 
+    size_t N = pow(B,L);
 
     double mfpt = 0.; // mean first passage time
     double covt = 0.; // coverage time
@@ -184,7 +185,7 @@ tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
         for(auto const& walker: remaining_walkers)
         {
             size_t u = current_nodes[walker];
-            size_t neigh = get_random_neighbor_MHRN(u,B,layer_pmf,generator,distribution);
+            size_t neigh = get_random_neighbor_MHRN(u,B,layer_pmf,generator,uni_distribution);
 
             current_nodes[walker] = neigh;
 
