@@ -401,9 +401,13 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law_k(
             double dp = 1.0 - pmf[neigh];
             if (dp>overflow_probability)
             {
-                pmf[neigh] += dp;
+                pmf[neigh] += overflow_probability;
                 if (neigh != N-2-neigh)
-                    pmf[N-2-neigh] += dp;
+                    pmf[N-2-neigh] += overflow_probability;
+                else if (1.0-pmf[neigh] > overflow_probability)
+                    pmf[neigh] += overflow_probability;
+                else
+                    pmf[neigh] = 1.;
 
                 overflow_probability = 0.0;
             }
