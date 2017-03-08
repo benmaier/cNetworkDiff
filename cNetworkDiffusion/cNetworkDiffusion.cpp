@@ -72,7 +72,6 @@ PYBIND11_PLUGIN(cNetworkDiffusion) {
     m.def("mmfpt_and_mean_coverage_time_meanfield_MHRN", &mmfpt_and_mean_coverage_time_meanfield_MHRN, "Simulates N_walker random walks on a ring network with MHRN jump distribution where the distribution sums to k. Returns the mean mean first passage time (MMFPT) and the mean coverage time.",
             py::arg("B"),
             py::arg("L"),
-            py::arg("k"),
             py::arg("xi"),
             py::arg("coverage_ratio") = 1.0,
             py::arg("seed") = 0

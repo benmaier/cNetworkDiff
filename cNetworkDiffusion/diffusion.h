@@ -32,7 +32,6 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law_k(
 tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
         size_t B,
         size_t L,
-        double k,
         double xi,
         double coverage_ratio,
         size_t seed

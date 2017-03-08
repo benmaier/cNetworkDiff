@@ -136,7 +136,6 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
 tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
         size_t B,
         size_t L,
-        double k,
         double xi,
         double coverage_ratio,
         size_t seed
@@ -170,12 +169,11 @@ tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
     default_random_engine generator(seed);
     uniform_real_distribution<double> uni_distribution(0.,1.);
 
-    vector < double > layer_pmf = get_p_MHRN(B,L,k,xi);
+    vector < double > layer_pmf = get_p_MHRN(B,L,1.0,xi);
     for(size_t l = 1; l<=L; l++)
         layer_pmf[l-1] *= ( pow(B,l) - pow(B,l-1) );
 
 
-    
     size_t t = 1;
     size_t number_of_pairs = 0;
 

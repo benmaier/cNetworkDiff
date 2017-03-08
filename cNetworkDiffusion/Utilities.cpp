@@ -240,7 +240,7 @@ size_t get_random_neighbor_MHRN(
 
     // draw from this layer as long as the drawn neighbor v is in the same module
     // as the orginal node one layer lower
-    while ( (v>=forbidden_max) and (v<=forbidden_min) )
+    while ( (v>=forbidden_min) and (v<=forbidden_max) )
         v = random_integer(generator);
 
     return v;
