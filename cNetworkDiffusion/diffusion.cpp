@@ -42,7 +42,7 @@
 
 using namespace std;
 
-tuple < vector < double >, double > mmfpts_and_mean_coverage_time(
+tuple < vector < double >, double > gmfpts_and_mean_coverage_time(
         size_t N,
         vector < pair <size_t, size_t > > edge_list,
         double coverage_ratio,
@@ -77,7 +77,11 @@ tuple < vector < double >, double > mmfpts_and_mean_coverage_time(
     }
 
     //initialize random generators
-    default_random_engine generator(seed);
+    default_random_engine generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(seed);
     uniform_real_distribution<double> uni_distribution(0.,1.);
     
     size_t t = 1;
@@ -136,7 +140,7 @@ tuple < vector < double >, double > mmfpts_and_mean_coverage_time(
 
 }
 
-tuple < double, double > mmfpt_and_mean_coverage_time(
+tuple < double, double > mgmfpt_and_mean_coverage_time(
         size_t N,
         vector < pair <size_t, size_t > > edge_list,
         double coverage_ratio,
@@ -168,7 +172,11 @@ tuple < double, double > mmfpt_and_mean_coverage_time(
     }
 
     //initialize random generators
-    default_random_engine generator(seed);
+    default_random_engine generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(seed);
     uniform_real_distribution<double> uni_distribution(0.,1.);
     
     size_t t = 1;
@@ -262,7 +270,11 @@ tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
     }
 
     //initialize random generators
-    default_random_engine generator(seed);
+    default_random_engine generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(seed);
     uniform_real_distribution<double> uni_distribution(0.,1.);
 
     vector < double > layer_pmf = get_p_MHRN(B,L,1.0,xi);
@@ -354,7 +366,11 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law(
     }
 
     //initialize random generators
-    default_random_engine generator(seed);
+    default_random_engine generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(seed);
     uniform_real_distribution<double> uni_distribution(0.,1.);
 
     size_t N_half = N / 2;
@@ -460,7 +476,11 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law_k(
     }
 
     //initialize random generators
-    default_random_engine generator(seed);
+    default_random_engine generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(seed);
     uniform_real_distribution<double> uni_distribution(0.,1.);
 
     size_t N_half = N / 2;
@@ -515,8 +535,6 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law_k(
     }
 
     a0 = k;
-
-
     
     size_t t = 1;
     size_t number_of_pairs = 0;

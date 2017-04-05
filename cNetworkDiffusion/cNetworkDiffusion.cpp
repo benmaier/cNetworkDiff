@@ -47,14 +47,14 @@ namespace py = pybind11;
 PYBIND11_PLUGIN(cNetworkDiffusion) {
     py::module m("cNetworkDiffusion", "For fast simulations of random walks on networks.");
     
-    m.def("mmfpt_and_mean_coverage_time", &mmfpt_and_mean_coverage_time, "Simulates N_walker random walks on the network given as edge list and returns the mean mean first passage time (MMFPT) and the mean coverage time.",
+    m.def("mgmfpt_and_mean_coverage_time", &mgmfpt_and_mean_coverage_time, "Simulates N_walker random walks on the network given as edge list and returns the mean global mean first passage time (MGMFPT) and the mean coverage time.",
             py::arg("N"),
             py::arg("edge_list"),
             py::arg("coverage_ratio") = 1.0,
             py::arg("seed") = 0
             );
 
-    m.def("mmfpts_and_mean_coverage_time", &mmfpts_and_mean_coverage_time, "Simulates N_walker random walks on the network given as edge list and returns the mean mean first passage time (MMFPT) per node and the overall mean coverage time.",
+    m.def("gmfpts_and_mean_coverage_time", &gmfpts_and_mean_coverage_time, "Simulates N_walker random walks on the network given as edge list and returns the global mean first passage time (MMFPT) per target node and the overall mean coverage time.",
             py::arg("N"),
             py::arg("edge_list"),
             py::arg("coverage_ratio") = 1.0,
