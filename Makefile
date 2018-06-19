@@ -18,4 +18,4 @@ matclean:
 
 python:
 	sudo make pyclean
-	sudo python setup.py develop
+	sudo pip install -e ../cNetworkDiff --no-binary :all:

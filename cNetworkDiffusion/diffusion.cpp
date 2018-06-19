@@ -42,6 +42,87 @@
 
 using namespace std;
 
+size_t saturation_time(
+        size_t N,
+        vector < pair <size_t, size_t > > edge_list,
+        size_t source,
+        size_t target,
+        size_t N_walker,
+        size_t N_saturation,
+        size_t seed
+        )
+{
+    assert( N_walker>=N_saturation );
+    assert( source < N );
+    assert( target < N );
+
+    vector < vector < size_t > * > G = get_neighbor_list(N,edge_list);
+
+    size_t N_w = N_walker;
+    vector < size_t > current_nodes(N_w);
+    vector < size_t > remaining_walkers;
+
+    for(size_t walker = 0; walker < N_w; walker++)
+    {
+        current_nodes[walker] = source;
+        remaining_walkers.push_back(walker);
+    }
+
+    //initialize random generators
+    default_random_engine generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(seed);
+
+    size_t t = 0;
+    size_t walkers_arrived = 0;
+
+    do
+    {
+        //increase time
+        t++;
+
+        vector < size_t > next_to_pop;
+        for(auto const& walker: remaining_walkers)
+        {
+            size_t u = current_nodes[walker];
+            size_t k = G[u]->size();
+            uniform_int_distribution<size_t> uni_distribution(0,k-1);
+            size_t neigh = G[u]->at(uni_distribution(generator));
+
+            current_nodes[walker] = neigh;
+
+            if (neigh == target)
+            {
+                next_to_pop.push_back(walker);
+                walkers_arrived++;
+            }
+
+        }
+
+        for (size_t walker_id=0; walker_id<next_to_pop.size(); walker_id++)
+        {
+            vector<size_t>::iterator to_delete = find(remaining_walkers.begin(),
+                                                      remaining_walkers.end(),
+                                                      next_to_pop[walker_id]
+                                                     );
+            *to_delete = remaining_walkers.back();
+            remaining_walkers.pop_back();
+        }
+
+    } while (walkers_arrived < N_saturation);
+
+    //free memory
+    for(size_t node = 0; node < N; node++)
+    {
+        delete G[node];
+    }
+
+    return t;
+
+}
+
 tuple < vector < double >, double > gmfpts_and_mean_coverage_time(
         size_t N,
         vector < pair <size_t, size_t > > edge_list,

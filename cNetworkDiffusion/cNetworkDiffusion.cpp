@@ -44,9 +44,19 @@
 using namespace std;
 namespace py = pybind11;
 
-PYBIND11_PLUGIN(cNetworkDiffusion) {
-    py::module m("cNetworkDiffusion", "For fast simulations of random walks on networks.");
+PYBIND11_MODULE(cNetworkDiffusion, m) {
+    m.doc() = "For fast simulations of random walks on networks.";
     
+    m.def("saturation_time", &saturation_time, R"pbdoc(Simulates N_walker random walkers starting on a single source node on the network (given as edge list) and returns the time it takes until at least N_saturation of themarrive at the target node. RNG is non-deterministically initialized if seed = 0.)pbdoc",
+            py::arg("N"),
+            py::arg("edge_list"),
+            py::arg("source"),
+            py::arg("target"),
+            py::arg("N_walker"),
+            py::arg("N_saturation"),
+            py::arg("seed") = 0
+            );
+
     m.def("mgmfpt_and_mean_coverage_time", &mgmfpt_and_mean_coverage_time, "Simulates N_walker random walks on the network given as edge list and returns the mean global mean first passage time (MGMFPT) and the mean coverage time. RNG is non-deterministically initialized if seed = 0.",
             py::arg("N"),
             py::arg("edge_list"),
@@ -96,7 +106,5 @@ PYBIND11_PLUGIN(cNetworkDiffusion) {
             py::arg("coverage_ratio") = 1.0,
             py::arg("seed") = 0
             );
-
-    return m.ptr();
 
 }

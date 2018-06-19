@@ -7,6 +7,16 @@
 
 using namespace std;
 
+size_t saturation_time(
+        size_t N,
+        vector < pair <size_t, size_t > > edge_list,
+        size_t source,
+        size_t target,
+        size_t N_walker,
+        size_t N_saturation,
+        size_t seed
+        );
+
 tuple < vector < double >, double > gmfpts_and_mean_coverage_time(
         size_t N,
         vector < pair <size_t, size_t > > edge_list,
