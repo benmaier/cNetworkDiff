@@ -63,6 +63,8 @@ N_saturation = 5
 t = saturation_time(N,E,source,target,N_walker,N_saturation)
 ```
 
+And example on how to get a distribution of saturation times
+
 ```python
 from cNetworkDiffusion import saturation_time
 
