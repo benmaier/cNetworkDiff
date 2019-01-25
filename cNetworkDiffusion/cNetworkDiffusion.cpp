@@ -107,4 +107,12 @@ PYBIND11_MODULE(cNetworkDiffusion, m) {
             py::arg("seed") = 0
             );
 
+    m.def("cover_times", &cover_times,
+          "Simulates N random walkers, each starting on a different node. Returns a list of the number of time steps each took to visit every node at least once.",
+            py::arg("N"),
+            py::arg("edge_list"),
+            py::arg("coverage_ratio") = 1.0,
+            py::arg("seed") = 0
+            );
+
 }

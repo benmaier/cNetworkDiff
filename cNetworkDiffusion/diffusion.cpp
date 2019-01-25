@@ -671,3 +671,93 @@ tuple < double, double > mmfpt_and_mean_coverage_time_power_law_k(
     return make_pair(mfpt, covt);
 
 }
+
+vector < double > cover_times(
+        size_t N,
+        vector < pair <size_t, size_t > > edge_list,
+        double coverage_ratio,
+        size_t seed
+        )
+{
+    assert( coverage_ratio>0 && coverage_ratio<=1.0);
+
+    vector < vector < size_t > * > G = get_neighbor_list(N,edge_list);
+
+    vector < double > covt; // coverage time
+
+    size_t nmax = coverage_ratio * N;
+
+    size_t N_w = N;
+    vector < size_t > current_nodes(N_w);
+    vector < set < size_t > * > already_visited;
+
+    vector < size_t > remaining_walkers;
+
+    for(size_t node = 0; node < N; node++)
+    {
+        size_t walker = node;
+        current_nodes[walker] = node;
+        already_visited.push_back(new set < size_t >);
+        already_visited[walker]->insert(node);
+        remaining_walkers.push_back(walker);
+    }
+
+    //initialize random generators
+    default_random_engine generator;
+    if (seed == 0)
+        randomly_seed_engine(generator);
+    else
+        generator.seed(seed);
+    uniform_real_distribution<double> uni_distribution(0.,1.);
+    
+    size_t t = 1;
+    size_t number_of_pairs = 0;
+
+    while (remaining_walkers.size()>0)
+    {
+        vector < size_t > next_to_pop;
+        for(auto const& walker: remaining_walkers)
+        {
+            size_t u = current_nodes[walker];
+            size_t k = G[u]->size();
+            size_t neigh = G[u]->at(uni_distribution(generator) * k);
+
+            current_nodes[walker] = neigh;
+
+            if (already_visited[walker]->find(neigh) == already_visited[walker]->end())
+            {
+                already_visited[walker]->insert(neigh);
+                number_of_pairs++;
+            }
+
+            if (already_visited[walker]->size()==nmax)
+            {
+                covt.push_back(t);
+                next_to_pop.push_back(walker);
+            }
+
+        }
+
+        for (size_t walker_id=0; walker_id<next_to_pop.size(); walker_id++)
+        {
+            vector<size_t>::iterator to_delete = find(remaining_walkers.begin(),
+                                                      remaining_walkers.end(),
+                                                      next_to_pop[walker_id]
+                                                     );
+            *to_delete = remaining_walkers.back();
+            remaining_walkers.pop_back();
+        }
+
+        t++;
+    }
+
+    //free memory
+    for(size_t node = 0; node < N; node++)
+    {
+        delete already_visited[node];
+        delete G[node];
+    }
+
+    return covt;
+
+}

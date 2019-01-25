@@ -53,4 +53,11 @@ tuple < double, double > mmfpt_and_mean_coverage_time_meanfield_MHRN(
         double coverage_ratio,
         size_t seed
         );
+
+vector < double > cover_times(
+        size_t N,
+        vector < pair <size_t, size_t > > edge_list,
+        double coverage_ratio,
+        size_t seed
+        );
 #endif
